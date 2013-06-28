@@ -24,6 +24,8 @@ sub get {
     }
 
     print $response->{content} if length $response->{content};
+    
+    return decode_json($response->{content});
 }
 
 1;
