@@ -1,18 +1,29 @@
+# ABSTRACT: provides perl API to Forecast.io
+package Forecast::IO;
 use strict;
 use warnings;
 use JSON;
 use HTTP::Tiny;
+use Moo;
 
-package Forecast::IO;
+has key => ( is => 'ro' );
 
-# ABSTRACT: provides perl API to Forecast.io
+sub get {
+    my ( $self, $lat, $long ) = @_;
+    my $response =
+      HTTP::Tiny->new->get("https://api.forecast.io/forecast/$key/$lat,$long");
 
-sub new {
-    my ( $self, $key ) = @_;
-    $self = {};
-    $self->{key} = $key;
-    bless($self);
-    return $self;
+    die "Failed!\n" unless $response->{success};
+
+    print "$response->{status} $response->{reason}\n";
+
+    while ( my ( $k, $v ) = each %{ $response->{headers} } ) {
+        for ( ref $v eq 'ARRAY' ? @$v : $v ) {
+            print "$k: $_\n";
+        }
+    }
+
+    print $response->{content} if length $response->{content};
 }
 
 1;
