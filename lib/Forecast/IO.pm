@@ -2,30 +2,50 @@
 package Forecast::IO;
 use strict;
 use warnings;
-use JSON;
+use JSON::PP;
 use HTTP::Tiny;
 use Moo;
 
+my $api   = "https://api.forecast.io/forecast";
+my $docs  = "https://developer.forecast.io/docs/v2";
+my %units = (
+    si   => 1,
+    us   => 1,
+    auto => 1,
+    ca   => 1,
+    uk   => 1,
+);
+
 has key => ( is => 'ro' );
+has units => (
+    is    => 'ro',
+    'isa' => sub {
+        die "Invalid units specified: see $docs\n"
+          unless exists( $units{ $_[0] } );
+    },
+    'default' => 'auto',
+);
 
 sub get {
-    my ( $self, $lat, $long ) = @_;
-    my $response =
-      HTTP::Tiny->new->get("https://api.forecast.io/forecast/$key/$lat,$long");
+    my ( $self, $lat, $long, $time ) = @_;
 
-    die "Failed!\n" unless $response->{success};
-
-    print "$response->{status} $response->{reason}\n";
-
-    while ( my ( $k, $v ) = each %{ $response->{headers} } ) {
-        for ( ref $v eq 'ARRAY' ? @$v : $v ) {
-            print "$k: $_\n";
-        }
+    my $url    = "";
+    my $params = "";
+    if ( defined $time ) {
+        $params = "/$lat,$long,$time";
+    }
+    else {
+        $params = "/$lat,$long";
     }
 
-    print $response->{content} if length $response->{content};
-    
-    return decode_json($response->{content});
+    $url = $api . '/' . $self->{key} . $params . "?units=" . $self->{units};
+
+    my $response = HTTP::Tiny->new->get($url);
+
+    die "Request to '$url' failed: $response->{status} $response->{reason}\n"
+      unless $response->{success};
+
+    return decode_json( $response->{content} );
 }
 
 1;
