@@ -14,6 +14,6 @@ my $forecast = Forecast::IO->new(
 
 is( sprintf( "%.4f", $forecast->{latitude} ),  $lat );
 is( sprintf( "%.4f", $forecast->{longitude} ), $long );
-is( $forecast->{response}->{currently}->{'time'}, $time );
-is( sprintf( "%.2f", $forecast->{response}->{currently}->{'visibility'} ),
+is( $forecast->{currently}->{'time'}, $time );
+is( sprintf( "%.2f", $forecast->{currently}->{'visibility'} ),
     13.17 );

@@ -29,29 +29,39 @@ has units => (
 has latitude  => ( is => 'ro' );
 has longitude => ( is => 'ro' );
 has 'time'    => ( is => 'ro', default => '' );
-has response  => ( is => 'ro' );
+has currently => ( is => 'ro' );
 
-sub BUILD {
-    my $self = shift;
+sub BUILDARGS {
+    my ($class,%args) = @_;
 
     my $url    = "";
     my $params = "";
-    if ( $self->{time} ne '' ) {
-        $params = '/'
-          . join( ',', $self->{latitude}, $self->{longitude}, $self->{time} );
+    if ( exists($args{time}) && $args{time} ne '' ) {
+        $params = '/' . join( ',', $args{latitude}, $args{longitude}, $args{time} );
     }
     else {
-        $params = '/' . join( ',', $self->{latitude}, $self->{longitude} );
+        $params = '/' . join( ',', $args{latitude}, $args{longitude});
     }
 
-    $url = $api . '/' . $self->{key} . $params . "?units=" . $self->{units};
+    if (exists($args{units})) {
+        $url = $api . '/' . $args{key} . $params . "?units=" . $args{units};
+    } else {
+        $url = $api . '/' . $args{key} . $params . "?units=auto";
+    }
 
     my $response = HTTP::Tiny->new->get($url);
 
     die "Request to '$url' failed: $response->{status} $response->{reason}\n"
       unless $response->{success};
 
-    $self->{response} = decode_json( $response->{content} );
+    my $forecast = decode_json( $response->{content} );
+
+    while (my ($key,$val) = each %args) {
+        unless ( exists($forecast->{$key})) {
+            $forecast->{$key} = $val;
+        }
+    }
+    return $forecast;
 }
 
 1;
