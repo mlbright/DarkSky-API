@@ -1,4 +1,4 @@
 test.pl
-./build/*
+./build
 *.swp
 *.bak
