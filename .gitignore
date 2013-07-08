@@ -1,2 +1,4 @@
 test.pl
 ./build/*
+*.swp
+*.bak
