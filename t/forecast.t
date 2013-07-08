@@ -1,13 +1,19 @@
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use Forecast::IO;
 
-my $lat      = 43.6667;
-my $long     = -79.4167;
-my $time     = 1373241600;
-my $obj      = Forecast::IO->new( key => '3f8d314e139bc4f3c4934803fdbf45d1' );
-my $forecast = $obj->get( $lat, $long, $time );
+my $lat      = '43.6667';
+my $long     = '-79.4167';
+my $time     = '1373241600';        # 1373241600
+my $forecast = Forecast::IO->new(
+    key       => '3f8d314e139bc4f3c4934803fdbf45d1',
+    longitude => $long,
+    latitude  => $lat,
+    'time'    => $time
+);
 
-is($forecast->{latitude}, 43.6667);
-is($forecast->{currently}->{'time'}, $time);
-is($forecast->{currently}->{'temperature'}, 22.32);
+is( sprintf( "%.4f", $forecast->{latitude} ),  $lat );
+is( sprintf( "%.4f", $forecast->{longitude} ), $long );
+is( $forecast->{response}->{currently}->{'time'}, $time );
+is( sprintf( "%.2f", $forecast->{response}->{currently}->{'visibility'} ),
+    13.17 );

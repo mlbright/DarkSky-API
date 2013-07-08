@@ -2,7 +2,7 @@
 package Forecast::IO;
 use strict;
 use warnings;
-use JSON::PP;
+use JSON;
 use HTTP::Tiny;
 use Moo;
 
@@ -26,16 +26,22 @@ has units => (
     'default' => 'auto',
 );
 
-sub get {
-    my ( $self, $lat, $long, $time ) = @_;
+has latitude  => ( is => 'ro' );
+has longitude => ( is => 'ro' );
+has 'time'    => ( is => 'ro', default => '' );
+has response  => ( is => 'ro' );
+
+sub BUILD {
+    my $self = shift;
 
     my $url    = "";
     my $params = "";
-    if ( defined $time ) {
-        $params = "/$lat,$long,$time";
+    if ( $self->{time} ne '' ) {
+        $params = '/'
+          . join( ',', $self->{latitude}, $self->{longitude}, $self->{time} );
     }
     else {
-        $params = "/$lat,$long";
+        $params = '/' . join( ',', $self->{latitude}, $self->{longitude} );
     }
 
     $url = $api . '/' . $self->{key} . $params . "?units=" . $self->{units};
@@ -45,7 +51,7 @@ sub get {
     die "Request to '$url' failed: $response->{status} $response->{reason}\n"
       unless $response->{success};
 
-    return decode_json( $response->{content} );
+    $self->{response} = decode_json( $response->{content} );
 }
 
 1;
