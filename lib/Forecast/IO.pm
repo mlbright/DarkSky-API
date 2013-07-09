@@ -29,24 +29,35 @@ has units => (
 has latitude  => ( is => 'ro' );
 has longitude => ( is => 'ro' );
 has 'time'    => ( is => 'ro', default => '' );
+has timezone  => ( is => 'ro' );
+has offset    => ( is => 'ro' );
 has currently => ( is => 'ro' );
+has minutely  => ( is => 'ro' );
+has hourly    => ( is => 'ro' );
+has daily     => ( is => 'ro' );
+has alerts    => ( is => 'ro' );
+has flags     => ( is => 'ro' );
 
 sub BUILDARGS {
-    my ($class,%args) = @_;
+    my ( $class, %args ) = @_;
 
-    my $url    = "";
-    my $params = "";
-    if ( exists($args{time}) && $args{time} ne '' ) {
-        $params = '/' . join( ',', $args{latitude}, $args{longitude}, $args{time} );
+    my $url = "";
+    my @params;
+    if ( exists( $args{time} ) && $args{time} ne '' ) {
+        @params = ( $args{latitude}, $args{longitude}, $args{time} );
     }
     else {
-        $params = '/' . join( ',', $args{latitude}, $args{longitude});
+        @params = ( $args{latitude}, $args{longitude} );
     }
 
-    if (exists($args{units})) {
-        $url = $api . '/' . $args{key} . $params . "?units=" . $args{units};
-    } else {
-        $url = $api . '/' . $args{key} . $params . "?units=auto";
+    my $params = join( ',', @params );
+
+    if ( exists( $args{units} ) ) {
+        $url =
+          $api . '/' . $args{key} . '/' . $params . "?units=" . $args{units};
+    }
+    else {
+        $url = $api . '/' . $args{key} . '/' . $params . "?units=auto";
     }
 
     my $response = HTTP::Tiny->new->get($url);
@@ -56,8 +67,8 @@ sub BUILDARGS {
 
     my $forecast = decode_json( $response->{content} );
 
-    while (my ($key,$val) = each %args) {
-        unless ( exists($forecast->{$key})) {
+    while ( my ( $key, $val ) = each %args ) {
+        unless ( exists( $forecast->{$key} ) ) {
             $forecast->{$key} = $val;
         }
     }
