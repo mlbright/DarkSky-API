@@ -32,3 +32,10 @@ for (@daily_data_points) {
     print Dumper($_);
 }
 ```
+
+## Links
+
+Patches/suggestions welcome
+
+Github: https://github.com/mlbright/Forecast-IO
+CPAN: coming soon
