@@ -76,3 +76,57 @@ sub BUILDARGS {
 }
 
 1;
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Forecast::IO - Provides Perl API to Forecast.io
+
+=head1 SYNOPSIS
+
+use 5.016;
+use Forecast::IO;
+use Data::Dumper;
+
+my $lat  = 43.6667;
+my $long = -79.4167;
+my $key = "c9ce1c59d139c3dc62961cbd63097d13"; # example Forecast.io API key
+
+my $forecast = Forecast::IO->new(
+    key       => $key,
+    longitude => $long,
+    latitude  => $lat,
+);
+
+say "current temperature: " . $forecast->{currently}->{temperature};
+
+my @daily_data_points = @{ $forecast->{daily}->{data} };
+
+# Use your imagination about how to use this data.
+# in the meantime, inspect it by dumping it.
+for (@daily_data_points) {
+    print Dumper($_);
+}
+
+=head1 DESCRIPTION
+
+This module is a wrapper around the Forecast.io API.
+
+=head1 REFERENCES
+
+Git repository: L<https://github.com/mlbright/Forecast-IO>
+
+Forecast.io API docs: L<https://developer.forecast.io/docs/v2>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2013 L</AUTHOR>
+
+=head1 LICENSE
+
+This library is free software and may be distributed under the same terms
+as perl itself. See L<http://dev.perl.org/licenses/>.
+
+=cut
