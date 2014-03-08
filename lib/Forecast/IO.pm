@@ -104,8 +104,9 @@ say "current temperature: " . $forecast->{currently}->{temperature};
 
 my @daily_data_points = @{ $forecast->{daily}->{data} };
 
-# Use your imagination about how to use this data.
-# in the meantime, inspect it by dumping it.
+# Use this data to prove/disprove climate change,
+# or how to understand its impact.
+# In the meantime, inspect it by dumping it.
 for (@daily_data_points) {
     print Dumper($_);
 }
@@ -120,9 +121,11 @@ Git repository: L<https://github.com/mlbright/Forecast-IO>
 
 Forecast.io API docs: L<https://developer.forecast.io/docs/v2>
 
+Another Perl API to Forecast.io: L<http://search.cpan.org/~mallen/WebService-ForecastIO-0.01>
+
 =head1 COPYRIGHT
 
-Copyright (c) 2013 L</AUTHOR>
+Copyright (c) 2013 L<Martin-Louis Bright>
 
 =head1 LICENSE
 
