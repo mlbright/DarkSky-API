@@ -6,8 +6,8 @@ use JSON;
 use HTTP::Tiny;
 use Moo;
 
-my $api   = "https://api.forecast.io/forecast";
-my $docs  = "https://developer.forecast.io/docs/v2";
+my $api   = "https://api.darksky.net/forecast";
+my $docs  = "https://darksky.net/dev/docs";
 my %units = (
     si   => 1,
     us   => 1,
@@ -119,7 +119,7 @@ This module is a wrapper around the Forecast.io API.
 
 Git repository: L<https://github.com/mlbright/Forecast-IO>
 
-Forecast.io API docs: L<https://developer.forecast.io/docs/v2>
+Forecast.io API docs: L<https://darksky.net/dev/docs>
 
 Another Perl API to Forecast.io: L<http://search.cpan.org/~mallen/WebService-ForecastIO-0.01>
 
