@@ -1,7 +1,8 @@
 ## DarkSky.net Wrapper
 
-This is a wrapper for the darksky.net API.  You need an API key to use it (http://developer.darksky.net).  
-Please consult the API docs at https://developer.darksky.net/docs/v2.
+This is a wrapper for the darksky.net API. You need an API key to
+use it (https://darksky.net/dev/). Please consult the API docs at
+https://darksky.net/dev/.
 
 
 ## Example Use
