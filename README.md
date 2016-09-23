@@ -1,7 +1,7 @@
-## Forecast.io Wrapper
+## DarkSky.net Wrapper
 
-This is a wrapper for the forecast.io API.  You need an API key to use it (http://developer.forecast.io).  
-Please consult the API docs at https://developer.forecast.io/docs/v2.
+This is a wrapper for the darksky.net API.  You need an API key to use it (http://developer.darksky.net).  
+Please consult the API docs at https://developer.darksky.net/docs/v2.
 
 
 ## Example Use
@@ -9,14 +9,14 @@ Please consult the API docs at https://developer.forecast.io/docs/v2.
 
 ```perl
 use 5.016;
-use Forecast::IO;
+use DarkSky::API;
 use Data::Dumper;
 
 my $lat  = 43.6667;
 my $long = -79.4167;
-my $key = "c9ce1c59d139c3dc62961cbd63097d13"; # example Forecast.io API key
+my $key = "c9ce1c59d139c3dc62961cbd63097d13"; # example DarkSky.net API key
 
-my $forecast = Forecast::IO->new(
+my $forecast = DarkSky::API->new(
     key       => $key,
     longitude => $long,
     latitude  => $lat,
@@ -37,6 +37,6 @@ for (@daily_data_points) {
 
 Patches/suggestions welcome
 
-Github: https://github.com/mlbright/Forecast-IO
+Github: https://github.com/mlbright/DarkSky-API
 
 CPAN: coming soon

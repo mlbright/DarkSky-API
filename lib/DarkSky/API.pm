@@ -1,13 +1,13 @@
-# ABSTRACT: provides perl API to Forecast.io
-package Forecast::IO;
+# ABSTRACT: provides perl API to DarkSky
+package DarkSky::API;
 use strict;
 use warnings;
 use JSON;
 use HTTP::Tiny;
 use Moo;
 
-my $api   = "https://api.darksky.net/forecast";
-my $docs  = "https://darksky.net/dev/docs";
+my $api   = "https://api.darksky.net";
+my $docs  = "https://darksky.net/dev/";
 my %units = (
     si   => 1,
     us   => 1,
@@ -82,19 +82,19 @@ sub BUILDARGS {
 
 =head1 NAME
 
-Forecast::IO - Provides Perl API to Forecast.io
+DarkSky::API - Provides Perl API to DarkSky
 
 =head1 SYNOPSIS
 
 use 5.016;
-use Forecast::IO;
+use DarkSky::API;
 use Data::Dumper;
 
 my $lat  = 43.6667;
 my $long = -79.4167;
-my $key = "c9ce1c59d139c3dc62961cbd63097d13"; # example Forecast.io API key
+my $key = "c9ce1c59d139c3dc62961cbd63097d13"; # example DarkSky API key
 
-my $forecast = Forecast::IO->new(
+my $forecast = DarkSky::API->new(
     key       => $key,
     longitude => $long,
     latitude  => $lat,
@@ -113,15 +113,15 @@ for (@daily_data_points) {
 
 =head1 DESCRIPTION
 
-This module is a wrapper around the Forecast.io API.
+This module is a wrapper around the DarkSky API.
 
 =head1 REFERENCES
 
-Git repository: L<https://github.com/mlbright/Forecast-IO>
+Git repository: L<https://github.com/mlbright/DarkSky-API>
 
-Forecast.io API docs: L<https://darksky.net/dev/docs>
+DarkSky API docs: L<https://darksky.net/dev/>
 
-Another Perl API to Forecast.io: L<http://search.cpan.org/~mallen/WebService-ForecastIO-0.01>
+Another Perl API to DarkSky: L<http://search.cpan.org/~mallen/WebService-ForecastIO-0.01>
 
 =head1 COPYRIGHT
 
