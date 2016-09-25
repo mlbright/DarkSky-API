@@ -6,7 +6,7 @@ use JSON;
 use HTTP::Tiny;
 use Moo;
 
-my $api   = "https://api.darksky.net";
+my $api   = "https://api.darksky.net/forecast";
 my $docs  = "https://darksky.net/dev/";
 my %units = (
     si   => 1,

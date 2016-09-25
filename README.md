@@ -34,10 +34,16 @@ for (@daily_data_points) {
 }
 ```
 
+## Build
+
+```sh
+$ dzil build
+$ dzil test
+$ dzil install
+```
+
 ## Links
 
 Patches/suggestions welcome
 
 Github: https://github.com/mlbright/DarkSky-API
-
-CPAN: coming soon
