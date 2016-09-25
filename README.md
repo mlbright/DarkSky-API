@@ -34,12 +34,14 @@ for (@daily_data_points) {
 }
 ```
 
-## Build
+## Build, release
 
 ```sh
 $ dzil build
 $ dzil test
 $ dzil install
+$ dzil clean
+$ dzil release
 ```
 
 ## Links
