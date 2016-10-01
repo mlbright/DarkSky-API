@@ -30,7 +30,7 @@ has latitude  => ( is => 'ro' );
 has longitude => ( is => 'ro' );
 has 'time'    => ( is => 'ro', default => '' );
 has timezone  => ( is => 'ro' );
-has offset    => ( is => 'ro' );
+has offset    => ( is => 'ro' ); # Deprecated
 has currently => ( is => 'ro' );
 has minutely  => ( is => 'ro' );
 has hourly    => ( is => 'ro' );
