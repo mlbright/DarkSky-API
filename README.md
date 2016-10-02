@@ -15,12 +15,14 @@ use Data::Dumper;
 
 my $lat  = 43.6667;
 my $long = -79.4167;
+my $time = "1475363709"; # example epoch time (optional)
 my $key = "c9ce1c59d139c3dc62961cbd63097d13"; # example DarkSky.net API key
 
 my $forecast = DarkSky::API->new(
     key       => $key,
     longitude => $long,
     latitude  => $lat,
+    time      => $time
 );
 
 say "current temperature: " . $forecast->{currently}->{temperature};
