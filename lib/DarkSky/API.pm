@@ -65,14 +65,7 @@ sub BUILDARGS {
     die "Request to '$url' failed: $response->{status} $response->{reason}\n"
       unless $response->{success};
 
-    my $forecast = decode_json( $response->{content} );
-
-    while ( my ( $key, $val ) = each %args ) {
-        unless ( exists( $forecast->{$key} ) ) {
-            $forecast->{$key} = $val;
-        }
-    }
-    return $forecast;
+    return decode_json( $response->{content} );
 }
 
 1;

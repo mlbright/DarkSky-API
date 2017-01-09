@@ -1,18 +1,28 @@
 use Test::More tests => 6;
 
 use DarkSky::API;
-use Term::ReadKey;
 use strict;
 use warnings;
+use HTTP::Tiny;
+use Test::MockModule;
 
 my $lat  = 43.6667;
 my $long = -79.4167;
 my $time = 1373241600;
-diag("Please enter your DarkSky API key: ");
-my $key = ReadLine(0);
-chomp $key;
+
+my $mock = Test::MockModule('HTTP::Tiny');
+$mock->mock(get => sub {
+    return {
+        'latitude' => $lat,
+        'longitude' => $long,
+        'currently' => { 'time' => $time , 'summary' => 'something'},
+        'daily' => {'data' => 1},
+        'hourly' => {'data' => 1},
+    };
+});
+
 my $forecast = DarkSky::API->new(
-    key       => $key,
+    key       => 'something',
     longitude => $long,
     latitude  => $lat,
     'time'    => $time
