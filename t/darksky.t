@@ -1,32 +1,37 @@
 use Test::More tests => 6;
 
-use DarkSky::API;
 use strict;
 use warnings;
-use HTTP::Tiny;
+use DarkSky::API;
 use Test::MockModule;
 
 my $lat  = 43.6667;
 my $long = -79.4167;
 my $time = 1373241600;
 
-my $mock = Test::MockModule('HTTP::Tiny');
-$mock->mock(get => sub {
-    return {
-        'latitude' => $lat,
-        'longitude' => $long,
-        'currently' => { 'time' => $time , 'summary' => 'something'},
-        'daily' => {'data' => 1},
-        'hourly' => {'data' => 1},
-    };
-});
+my $forecast;
 
-my $forecast = DarkSky::API->new(
-    key       => 'something',
-    longitude => $long,
-    latitude  => $lat,
-    'time'    => $time
-);
+{
+    my $mock = Test::MockModule->new('DarkSky::API');
+    $mock->mock(
+        "new" => sub {
+            return {
+                'latitude'  => $lat,
+                'longitude' => $long,
+                'currently' => { 'time' => $time, 'summary' => 'something' },
+                'daily'  => { 'data' => 1 },
+                'hourly' => { 'data' => 1 },
+            };
+        }
+    );
+
+    $forecast = DarkSky::API->new(
+        key       => 'something',
+        longitude => $long,
+        latitude  => $lat,
+        'time'    => $time
+    );
+}
 
 is( sprintf( "%.4f", $forecast->{latitude} ),  $lat );
 is( sprintf( "%.4f", $forecast->{longitude} ), $long );
