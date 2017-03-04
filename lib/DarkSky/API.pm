@@ -120,7 +120,7 @@ Another Perl API to DarkSky: L<http://search.cpan.org/~mallen/WebService-Forecas
 
 =head1 COPYRIGHT
 
-Copyright (c) 2013 L<Martin-Louis Bright>
+Copyright (c) 2017 L<Martin-Louis Bright>
 
 =head1 LICENSE
 
