@@ -70,10 +70,6 @@ sub BUILDARGS {
     die "Request to '$url' failed: $response->{status} $response->{reason}\n"
       unless $response->{success};
 
-    if ( exists( $args{lang} ) && $args{lang} eq "fr" ) {
-        return JSON->new->latin1->decode( $response->{content} );
-    }
-
     return decode_json( $response->{content} );
 }
 
