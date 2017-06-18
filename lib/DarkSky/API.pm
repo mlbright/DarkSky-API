@@ -37,6 +37,7 @@ has hourly    => ( is => 'ro' );
 has daily     => ( is => 'ro' );
 has alerts    => ( is => 'ro' );
 has flags     => ( is => 'ro' );
+has lang      => ( is => 'ro' );
 
 sub BUILDARGS {
     my ( $class, %args ) = @_;
@@ -58,6 +59,10 @@ sub BUILDARGS {
     }
     else {
         $url = $api . '/' . $args{key} . '/' . $params . "?units=auto";
+    }
+
+    if ( exists( $args{lang} ) ) {
+        $url = $url . "&lang=" . $args{lang};
     }
 
     my $response = HTTP::Tiny->new->get($url);
