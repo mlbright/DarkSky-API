@@ -6,6 +6,8 @@ use JSON::XS;
 use HTTP::Tiny;
 use Moo;
 
+our $VERSION = 1.1.3;
+
 my $api   = "https://api.darksky.net/forecast";
 my $docs  = "https://darksky.net/dev/";
 my %units = (
@@ -21,7 +23,7 @@ has units => (
     is    => 'ro',
     'isa' => sub {
         die "Invalid units specified: see $docs\n"
-          unless exists( $units{ $_[0] } );
+            unless exists( $units{ $_[0] } );
     },
     'default' => 'auto',
 );
@@ -30,7 +32,7 @@ has latitude  => ( is => 'ro' );
 has longitude => ( is => 'ro' );
 has 'time'    => ( is => 'ro', default => '' );
 has timezone  => ( is => 'ro' );
-has offset    => ( is => 'ro' ); # Deprecated
+has offset    => ( is => 'ro' );                  # Deprecated
 has currently => ( is => 'ro' );
 has minutely  => ( is => 'ro' );
 has hourly    => ( is => 'ro' );
@@ -54,8 +56,12 @@ sub BUILDARGS {
     my $params = join( ',', @params );
 
     if ( exists( $args{units} ) ) {
-        $url =
-          $api . '/' . $args{key} . '/' . $params . "?units=" . $args{units};
+        $url
+            = $api . '/'
+            . $args{key} . '/'
+            . $params
+            . "?units="
+            . $args{units};
     }
     else {
         $url = $api . '/' . $args{key} . '/' . $params . "?units=auto";
@@ -68,12 +74,13 @@ sub BUILDARGS {
     my $response = HTTP::Tiny->new->get($url);
 
     die "Request to '$url' failed: $response->{status} $response->{reason}\n"
-      unless $response->{success};
+        unless $response->{success};
 
     return decode_json( $response->{content} );
 }
 
 1;
+
 =pod
 
 =encoding utf-8
