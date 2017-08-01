@@ -2,7 +2,7 @@
 package DarkSky::API;
 use strict;
 use warnings;
-use JSON;
+use JSON::XS;
 use HTTP::Tiny;
 use Moo;
 

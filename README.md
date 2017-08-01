@@ -9,7 +9,6 @@ https://darksky.net/dev/.
 
 
 ```perl
-use 5.016;
 use DarkSky::API;
 use Data::Dumper;
 
