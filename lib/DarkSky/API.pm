@@ -6,7 +6,9 @@ use JSON::XS;
 use HTTP::Tiny;
 use Moo;
 
-our $VERSION = 1.1.3;
+our $VERSION = '1.1.4';
+
+my $json = JSON::XS->new->pretty->canonical;
 
 my $api   = "https://api.darksky.net/forecast";
 my $docs  = "https://darksky.net/dev/";
@@ -79,6 +81,8 @@ sub BUILDARGS {
     return decode_json( $response->{content} );
 }
 
+sub TO_JSON { return { %{ shift() } }; }
+
 1;
 
 =pod
@@ -91,9 +95,9 @@ DarkSky::API - Provides Perl API to DarkSky
 
 =head1 SYNOPSIS
 
-    use 5.016;
     use DarkSky::API;
-    use Data::Dumper;
+    use JSON::XS;
+    use feature 'say';
     
     my $lat  = 43.6667;
     my $long = -79.4167;
@@ -108,16 +112,15 @@ DarkSky::API - Provides Perl API to DarkSky
     );
     
     say "current temperature: " . $forecast->{currently}->{temperature};
-    
-    my @daily_data_points = @{ $forecast->{daily}->{data} };
-    
-    # Use this data to prove/disprove climate change,
-    # or how to understand its impact.
-    # In the meantime, inspect it by dumping it.
-    for (@daily_data_points) {
-        print Dumper($_);
-    }
-    
+
+    my $json = JSON::XS->new->canonical->pretty;
+
+    # Allow blessed objects to be serialized
+    # See http://search.cpan.org/~mlehmann/JSON-XS-3.02/XS.pm#OBJECT_SERIALISATION
+    $json->convert_blessed([1]);
+
+    say $json->encode($forecast);
+
 =head1 DESCRIPTION
 
 This module is a wrapper around the DarkSky API.
